@@ -1,0 +1,13 @@
+ Les étapes pour lancer le projet depuis la ligne-des-commandes:
+ 
+ $ mongod
+ $ mongoimport --db test --collection videos --drop --file videos_init.json
+ $ node server.js  ou $ nodemon server.js
+ Aller au localhost:8080 dans un navigateur web, nous avons testé sur Google Chrome.
+ 
+ Pour ajouter un video, il faut aller sur un video youtube et faire copier du lien url de la page,
+ naviguer vers Télécharger menu de l'application et coller dans le champs dédié au video url. Ensuite vous pouvez soit
+ faire copier coller du titre du video soit rajouter un nouvel titre ainsi que la description.
+ 
+ 
+  

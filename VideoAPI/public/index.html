@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+
+
+  <div id="app">
+    <div class="container">
+    <router-link class="view" to="/">Accueil</router-link>
+    <router-link class="view" to="/videos">Videos</router-link>
+    <router-link class="view" to="/ajout">Télécharger</router-link>
+    <router-view :videos="videos" v-on:add-v="addVideo($event);" v-on:delete-v="deleteVideo($event);" v-on:edit-v="editVideo($event);"></router-view>
+  </div>
+  </div>
+  <template id="accueil">
+  	<div id="container">
+  		<p>Bienvenue dans l'application de gestion des videos issus de YouTube.</p>
+  		<p>Cette application est développée avec VueJS et Vue Router JS comme front-end  et Express JS, MongoDB pour le back-end.</p>
+  	</div>
+  </template>
+  <template id="ajout-video" >
+    <form v-on:submit.prevent="ajouterVideo($event);" action="#" >
+      <legend>Télecharger une vidéo</legend>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label" for="title">Titre: </label>
+        <div class="col-sm-10">
+          <input class="form-control" type="text" id="title" v-model="title" name="title" required>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label" for="videourl">Vidéo URL: </label>
+        <div class="col-sm-10"><input class="form-control" id="videourl" type="text" v-model="videourl"  name="videourl" required>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label" for="description">Description: </label>
+        <div class="col-sm-10">
+          <textarea id="description" class="form-control" v-model="description" name="description">
+          </textarea>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit">Ajouter</button>
+  </form>
+  </template>
+  <template id="videos">
+    <div id="container">
+     
+      <div class="row" v-for="item in videos">
+        
+        <div class="row d-block">
+        <div class="col-md-4 col-lg-3 float-left myvideo">
+        	<iframe 
+          sandbox="allow-same-origin allow-presentation allow-scripts allow-popups allow-forms"
+         width="400" height="215" :src="'https://www.youtube.com/embed/'+item.videoid+'?showinfo=0'" frameborder="0" allow="encrypted-media"></iframe>
+        </div>  
+        <div class="col-md-8 col-lg-6 float-right video-details">
+        	        <p>{{item.title}}</p>
+        <button class="btn btn-danger" v-on:click="supprimerVideo(item)" title="Supprimer ce vidéo">Supprimer</button>
+        <router-link :to="{name:'mavideo',params:{id:item._id, video:item}}"><button class="btn btn-success" title="Modifier ce vidéo">Modifier</button></router-link>
+        <router-link :to="{name:'detvideo',params:{id:item._id, video:item}}"><button class="btn btn-primary" title="Détails">Consulter</button></router-link>
+        </div>
+
+        <!--button v-on:click="modifierVideo(item)" title="Modifier ce vidéo">Modifier</button-->
+       
+</div>
+      </div> 
+      
+   </div>
+  </template>  
+  <template id="detvideo-template">
+  	<div>
+  		<iframe 
+          sandbox="allow-same-origin allow-presentation allow-scripts allow-popups allow-forms"
+         width="600" height="415" :src="'https://www.youtube.com/embed/'+$route.params.video.videoid+'?showinfo=0'" frameborder="0" allow="encrypted-media"></iframe>
+         <p> {{$route.params.video.title}} </p>
+          <p> {{$route.params.video.description}} </p>
+          <router-link :to="{name:'Videos'}"><button class="btn btn-primary">Rétour</button></router-link>
+  	</div>
+  	  	
+
+  </template>
+  <template id="video-temp">
+  	<div>
+  		<p>
+  		{{$route.params.video.title}}
+  	</p>
+  	<iframe 
+          sandbox="allow-same-origin allow-presentation allow-scripts allow-popups allow-forms"
+         width="400" height="215" :src="'https://www.youtube.com/embed/'+$route.params.video.videoid+'?showinfo=0'" frameborder="0" allow="encrypted-media"></iframe>
+
+         <form v-on:submit.prevent="modifierVideo($event,$route.params.video);" action="#" >
+         	
+         	<div class="form-group row">
+         		<label class="col-sm-2 col-form-label"  for="_id">_ID: </label>
+         		<div class="col-sm-10">
+         			<input class="form-control" type="text"  id="_id" name="_id" :placeholder="$route.params.video._id" readonly>
+         		</div>
+         	</div>
+         	<div class="form-group row">
+        <label class="col-sm-2 col-form-label" for="videoid">Vidéo Youtube ID: </label>
+        <div class="col-sm-10"><input class="form-control" id="videoid" type="text" v-model="videoid"  name="videoid" :placeholder="$route.params.video.videoid" readonly>
+        </div>
+      </div>
+         	<div class="form-group row">
+        <label class="col-sm-2 col-form-label" for="videourl">Vidéo URL: </label>
+        <div class="col-sm-10"><input class="form-control" id="videourl" type="text" v-model="videourl"  name="videourl" :placeholder="$route.params.video.videourl" readonly>
+        </div>
+      </div>
+         	<div class="form-group row">
+         		<label class="col-sm-2 col-form-label" for="title">Titre: </label>
+         		<div class="col-sm-10">
+         			<input class="form-control" type="text" id="title"  name="title" :placeholder="$route.params.video.title" >
+         		</div>
+         	</div>
+         	<div class="form-group row">
+         		<label class="col-sm-2 col-form-label" for="title">Description: </label>
+         		<div class="col-sm-10">
+         			<textarea id="description" class="form-control"  name="description" :placeholder="$route.params.video.description">
+         			</textarea>
+         		</div>
+         	</div>
+         	<router-link :to="{name:'Videos'}"><button class="btn btn-primary">Rétour</button></router-link>&nbsp;
+          <button class="btn btn-success" type="submit">Modifier</button>&nbsp;
+          
+      </form>
+
+  	</div>
+  	
+  </template>
+</body>
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/myappcss.css">
+	<script src="js/vue.js"></script>
+	<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+	<script src="js/myapp.js"></script>
+</html>
