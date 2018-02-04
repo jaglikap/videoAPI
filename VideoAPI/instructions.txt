@@ -1,8 +1,14 @@
  Les étapes pour lancer le projet depuis la ligne-des-commandes:
  
+ 1. Allez dans le repertoire du projet: videoAPI/VideoAPI/
+ (Puisque le projet va avec les packages comme express, mongodb, etc c'est pas la peine d'installer à nouveau, sinon sans node_modules/ il faut saisir la commande: $ npm install.) Comme il y a les packages vous :
+ 2. Executez les commandes depuis le repertoire du projet dans des differentes fenetres: 
  $ mongod
+ et
  $ mongoimport --db test --collection videos --drop --file videos_init.json
+ 3. Ensuite lancez la commande:
  $ node server.js  ou $ nodemon server.js
+ 
  Aller au localhost:8080 dans un navigateur web, nous avons testé sur Google Chrome.
  
  Pour ajouter un video, il faut aller sur un video youtube et faire copier du lien url de la page,
