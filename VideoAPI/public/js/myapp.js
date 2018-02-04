@@ -132,6 +132,9 @@ watch: {
         responseJSON.json()
             .then(function(res) {
                 // Maintenant res est un vrai objet JavaScript
+                let div = document.querySelector("#alertmodif");
+            div.innerHTML = "Modification réussie !";
+                
                 console.log(res);
             });
         })
@@ -171,8 +174,9 @@ watch: {
         responseJSON.json()
             .then(function(res) {
                 // Maintenant res est un vrai objet JavaScript
-            
-          console.log(res);
+            let div = document.querySelector("#alertajout");
+            div.innerHTML = "Téléchargement réussi !";
+          //console.log(res);
             });
         })
         .catch(function (err) {

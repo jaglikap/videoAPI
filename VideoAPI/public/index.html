@@ -23,6 +23,7 @@
   	</div>
   </template>
   <template id="ajout-video" >
+    <div>
     <form v-on:submit.prevent="ajouterVideo($event);" action="#" >
       <legend>Télecharger une vidéo</legend>
       <div class="form-group row">
@@ -43,8 +44,15 @@
           </textarea>
         </div>
       </div>
-      <button class="btn btn-primary" type="submit">Ajouter</button>
+      <router-link :to="{name:'Videos'}"><button class="btn btn-primary">Rétour</button></router-link>&nbsp;
+      <button class="btn btn-success" type="submit">Ajouter</button>
   </form>
+      <div id="alertajout" class="alert alert-success" role="alert">
+
+      </div>      
+      
+    </div>
+
   </template>
   <template id="videos">
     <div id="container">
@@ -63,8 +71,6 @@
         <router-link :to="{name:'mavideo',params:{id:item._id, video:item}}"><button class="btn btn-success" title="Modifier ce vidéo">Modifier</button></router-link>
         <router-link :to="{name:'detvideo',params:{id:item._id, video:item}}"><button class="btn btn-primary" title="Détails">Consulter</button></router-link>
         </div>
-
-        <!--button v-on:click="modifierVideo(item)" title="Modifier ce vidéo">Modifier</button-->
        
 </div>
       </div> 
@@ -127,7 +133,9 @@
           <button class="btn btn-success" type="submit">Modifier</button>&nbsp;
           
       </form>
-
+      <div id="alertmodif" class="alert alert-success" role="alert">
+        
+      </div>
   	</div>
   	
   </template>
